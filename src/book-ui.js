@@ -1,9 +1,13 @@
+import { Book } from "./book.js";
+import { Store } from "./store.js";
+
 export class BookUI {
   static displayBooks() {
     const books = Store.getBooks();
 
     books.forEach((book) => BookUI.addBookToList(book));
   }
+
   static addBookToList(book) {
     const list = document.querySelector("#book-list");
 
@@ -22,6 +26,7 @@ export class BookUI {
     if (el.classList.contains("delete")) {
       const isbn = el.getAttribute("data-isbn");
       el.parentElement.parentElement.remove();
+      Book.deleteCount();
       Store.removeBook(isbn);
     }
   }

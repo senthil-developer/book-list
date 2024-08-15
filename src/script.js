@@ -1,13 +1,16 @@
 import { Book } from "./book.js";
 import { BookUI } from "./book-ui.js";
-import { AlertManager } from "./alert-message.js";
+import { Toast } from "./toast.js";
+import { Store } from "./store.js";
 
 document.addEventListener("DOMContentLoaded", () => {
+  document.querySelector("#count").textContent = Book.count();
   BookUI.displayBooks();
 });
 
 const bookForm = document.querySelector("#book-form");
 
+const toast = new Toast(bookForm);
 bookForm.addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -16,20 +19,23 @@ bookForm.addEventListener("submit", (e) => {
   const isbn = bookForm.querySelector("#isbn").value;
 
   if (title === "" || author === "" || isbn === "") {
-    const alert = new AlertManager(bookForm);
-    alert.danger("Please fill in all fields");
+    toast.danger("Please fill in all fields");
     return;
   }
-
-  BookUI.clearAlerts(bookForm);
 
   const book = new Book(title, author, isbn);
 
   BookUI.addBookToList(book);
 
+  Store.addBook(book);
+
+  toast.success("Book added successfully");
+
+  document.querySelector("#count").textContent = Book.count();
   BookUI.clearFields(bookForm);
 });
 
 document.querySelector("#book-list").onclick = (e) => {
   BookUI.deleteBook(e.target);
+  document.querySelector("#count").textContent = Book.count();
 };
