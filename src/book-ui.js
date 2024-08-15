@@ -1,6 +1,5 @@
 import { Book } from "./book.js";
 import { Store } from "./store.js";
-
 export class BookUI {
   static displayBooks() {
     const books = Store.getBooks();
@@ -17,15 +16,20 @@ export class BookUI {
       <td>${book.title}</td>
       <td>${book.author}</td>
       <td>${book.isbn}</td>
-      <td><a href="#" class="btn btn-danger btn-sm delete" data-isbn=${book.isbn}>X</a></td>
+      <td><button class="btn btn-danger btn-sm delete" 
+         data-isbn=${book.isbn}>X</button></td>
     `;
 
     list.appendChild(row);
   }
+
   static deleteBook(el) {
-    if (el.classList.contains("delete")) {
-      const isbn = el.getAttribute("data-isbn");
-      el.parentElement.parentElement.remove();
+    const isbn = el.getAttribute("data-isbn");
+    const row = document
+      .querySelector(`button[data-isbn="${isbn}"]`)
+      .closest("tr");
+    if (row) {
+      row.remove();
       Book.deleteCount();
       Store.removeBook(isbn);
     }

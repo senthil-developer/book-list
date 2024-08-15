@@ -36,6 +36,9 @@ bookForm.addEventListener("submit", (e) => {
 });
 
 document.querySelector("#book-list").onclick = (e) => {
-  BookUI.deleteBook(e.target);
-  document.querySelector("#count").textContent = Book.count();
+  if (e.target.classList.contains("delete")) {
+    BookUI.deleteBook(e.target);
+    toast.success("Book removed successfully");
+    document.querySelector("#count").textContent = Book.count();
+  }
 };

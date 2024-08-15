@@ -18,7 +18,7 @@ export class Store {
     const books = Store.getBooks();
 
     for (let i = 0; i < books.length; i++) {
-      if (books[i].isbn === isbn) {
+      if (books[i].isbn == isbn) {
         books.splice(i, 1);
         break;
       }
